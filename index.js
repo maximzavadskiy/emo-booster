@@ -290,21 +290,18 @@ function reportAirTime({userCharacters, totalCharacters, groupSize, channel}, {b
     return msg;
 }
 
+controller.hears(['What'], [ 'ambient'] , function (bot, message) {
+   bot.api.reactions.add({
+       timestamp: message.ts,
+       channel: message.channel,
+       name: 'confused',
+   }, function (err) {
+       if (err) {
+           console.log(err)
+       }
+   });
+});
 
-// ['hello', 'hi', 'greetings'],
-//     ['direct_mention', 'mention', 'direct_message'],
-//     function(bot,message) {
-//         bot.reply(message,'Hello!');
-//     }
-// controller.hears('in a thread', 'message', async(bot, message) => {
-
-//      // branch from the main channel into a side thread associated with this message
-//      await bot.startConversationInThread(message.channel, message.user, message.ts);
-// })
-
-// controller.on('event', (bot, message) => {
-//     bot.reply(message,'I received an event of type ' + message.type);
-// });
 controller.hears('', [ 'ambient'] , function (bot, message) {
    bot.api.reactions.add({
        timestamp: message.ts,
@@ -314,6 +311,5 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
        if (err) {
            console.log(err)
        }
-       bot.reply(message, 'I heard you loud and clear boss.');
    });
 });
