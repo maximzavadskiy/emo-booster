@@ -290,12 +290,36 @@ function reportAirTime({userCharacters, totalCharacters, groupSize, channel}, {b
     return msg;
 }
 
-controller.hears(['What'], [ 'ambient'] , function (bot, message) {
+controller.hears(['what'], [ 'ambient'] , function (bot, message) {
    bot.api.reactions.add({
        timestamp: message.ts,
        channel: message.channel,
        name: 'confused',
-   }, function (err) {
+   }, function (error) {
+       if (err) {
+           console.log(err)
+       }
+   });
+});
+
+controller.hears(['yes'], [ 'ambient'] , function (bot, message) {
+   bot.api.reactions.add({
+       timestamp: message.ts,
+       channel: message.channel,
+       name: 'smile',
+   }, function (error) {
+       if (err) {
+           console.log(err)
+       }
+   });
+});
+
+controller.hears(['sorry'], [ 'ambient'] , function (bot, message) {
+   bot.api.reactions.add({
+       timestamp: message.ts,
+       channel: message.channel,
+       name: 'expressionless',
+   }, function (error) {
        if (err) {
            console.log(err)
        }
