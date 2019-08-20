@@ -305,7 +305,7 @@ function reportAirTime({userCharacters, totalCharacters, groupSize, channel}, {b
 // controller.on('event', (bot, message) => {
 //     bot.reply(message,'I received an event of type ' + message.type);
 // });
-controller.hears('', ['direct_mention', 'mention', 'direct_message', 'message'] , function (bot, message) {
+controller.hears('', [ 'ambient'] , function (bot, message) {
    bot.api.reactions.add({
        timestamp: message.ts,
        channel: message.channel,
