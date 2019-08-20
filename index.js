@@ -291,7 +291,21 @@ function reportAirTime({userCharacters, totalCharacters, groupSize, channel}, {b
 }
 
 
-controller.on('direct_message,mention,direct_mention', function (bot, message) {
+// ['hello', 'hi', 'greetings'],
+//     ['direct_mention', 'mention', 'direct_message'],
+//     function(bot,message) {
+//         bot.reply(message,'Hello!');
+//     }
+// controller.hears('in a thread', 'message', async(bot, message) => {
+
+//      // branch from the main channel into a side thread associated with this message
+//      await bot.startConversationInThread(message.channel, message.user, message.ts);
+// })
+
+// controller.on('event', (bot, message) => {
+//     bot.reply(message,'I received an event of type ' + message.type);
+// });
+controller.hears('', ['direct_mention', 'mention', 'direct_message', 'message'] , function (bot, message) {
    bot.api.reactions.add({
        timestamp: message.ts,
        channel: message.channel,
