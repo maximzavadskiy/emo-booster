@@ -290,50 +290,74 @@ function reportAirTime({userCharacters, totalCharacters, groupSize, channel}, {b
     return msg;
 }
 
-controller.hears(['what'], [ 'ambient'] , function (bot, message) {
-   bot.api.reactions.add({
-       timestamp: message.ts,
-       channel: message.channel,
-       name: 'confused',
-   }, function (error) {
-       if (err) {
-           console.log(err)
-       }
-   });
-});
+// controller.hears(['what'], [ 'ambient'] , function (bot, message) {
+//    bot.api.reactions.add({
+//        timestamp: message.ts,
+//        channel: message.channel,
+//        name: 'confused',
+//    }, function (error) {
+//        if (err) {
+//            console.log(err)
+//        }
+//    });
+// });
 
-controller.hears(['yes'], [ 'ambient'] , function (bot, message) {
-   bot.api.reactions.add({
-       timestamp: message.ts,
-       channel: message.channel,
-       name: 'smile',
-   }, function (error) {
-       if (err) {
-           console.log(err)
-       }
-   });
-});
+// controller.hears(['yes'], [ 'ambient'] , function (bot, message) {
+//    bot.api.reactions.add({
+//        timestamp: message.ts,
+//        channel: message.channel,
+//        name: 'smile',
+//    }, function (error) {
+//        if (err) {
+//            console.log(err)
+//        }
+//    });
+// });
 
-controller.hears(['sorry'], [ 'ambient'] , function (bot, message) {
-   bot.api.reactions.add({
-       timestamp: message.ts,
-       channel: message.channel,
-       name: 'expressionless',
-   }, function (error) {
-       if (err) {
-           console.log(err)
-       }
-   });
-});
+// controller.hears(['sorry'], [ 'ambient'] , function (bot, message) {
+//    bot.api.reactions.add({
+//        timestamp: message.ts,
+//        channel: message.channel,
+//        name: 'expressionless',
+//    }, function (error) {
+//        if (err) {
+//            console.log(err)
+//        }
+//    });
+// });
 
 controller.hears('', [ 'ambient'] , function (bot, message) {
-   bot.api.reactions.add({
-       timestamp: message.ts,
-       channel: message.channel,
-       name: 'robot_face',
-   }, function (err) {
-       if (err) {
-           console.log(err)
-       }
-   });
+   var emojisPairs = [
+        ["but","face_with_raised_eyebrow"],
+        ["not","woman-gesturing-no"],
+        ["we","hugging_face"],
+        ["we","hugging_face"],
+        ["lets","star-struck"],
+        ["let's","star-struck"],
+        ["can", "muscle"],
+        ["like", "+1"],
+        ["need", "pray"],
+        ["if", "smirk"],
+        ["meeting", "handshake"],
+        ["yes,", "star-struck"],
+        ["sorry", "slightly_frowning_face"],
+        ["together", "handshake"]
+   ];
+
+   emojisPairs.forEach((emojiPair) => {
+        // TODO split in words
+        debugger;
+        if(_.includes(_.toLower(message.text), emojiPair[0])) {
+            bot.api.reactions.add({
+               timestamp: message.ts,
+               channel: message.channel,
+               name: emojiPair[1],
+            }, function (err) {
+               if (err) {
+                   console.log(err)
+               }
+            });
+        }
+   })
+   
 });
