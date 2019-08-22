@@ -344,20 +344,82 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         ["together", "handshake"]
    ];
 
-   emojisPairs.forEach((emojiPair) => {
-        // TODO split in words
-        debugger;
-        if(_.includes(_.toLower(message.text), emojiPair[0])) {
-            bot.api.reactions.add({
-               timestamp: message.ts,
-               channel: message.channel,
-               name: emojiPair[1],
-            }, function (err) {
-               if (err) {
-                   console.log(err)
-               }
-            });
+    const emojisToAdd = _.map(
+        _.filter(emojisPairs, (emojiPair) => _.includes(_.toLower(message.text), emojiPair[0])),
+        "[1]"
+    )
+    debugger;
+    if(!_.isEmpty(emojisToAdd)) {
+        const getContent = (emojis) => ({
+        // "response_type": "in_channel",
+        "blocks": [
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": `Add emoji`
+          }
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "emoji": true,
+                        "text": `:${emojis[0]}:`
+                    },
+                    "value": emojis[0]
+                }
+            ]
         }
-   })
+      ]})
+
+        bot.reply(message, 
+        // "response_type": "in_channel",
+        {
+        attachments: [
+            {
+                title: 'Do you want to interact with my buttons?',
+                callback_id: '123',
+                attachment_type: 'default',
+                actions: [
+                    {
+                        "name":"yes",
+                        "text": "Yes",
+                        "value": "yes",
+                        "type": "button",
+                    },
+                    {
+                        "name":"no",
+                        "text": "No",
+                        "value": "no",
+                        "type": "button",
+                    }
+                ]
+            }
+        ]
+    }) ; //getContent(emojisToAdd   )
+
+    }
    
 });
+
+
+
+   // emojisPairs.forEach((emojiPair) => {
+   //      // TODO split in words
+   //      debugger;
+   //      if(_.includes(_.toLower(message.text), emojiPair[0])) {
+   //          bot.api.reactions.add({
+   //             timestamp: message.ts,
+   //             channel: message.channel,
+   //             name: emojiPair[1],
+   //          }, function (err) {
+   //             if (err) {
+   //                 console.log(err)
+   //             }
+   //          });
+   //      }
+   // })
