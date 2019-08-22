@@ -143,7 +143,7 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
    var emojisPairs = [
         // ["you", "bow"],
         ["need", "bulb"],
-        ["$", "heavy_dollar_sign"],
+        ["$", "dollar"],
         // ["i","sunglasses"],
         ["cool", "sunglasses"],
         ["great", "raised_hands"],
