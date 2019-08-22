@@ -32,7 +32,6 @@ function onInstallation(bot, installer) {
 
 var config = {};
 if (process.env.MONGO_URI) {
-    console.log(process.env.MONGO_URI)
     var BotkitStorage = require('botkit-storage-mongo');
     config = {
         storage: BotkitStorage({mongoUri: process.env.MONGO_URI}),
@@ -144,6 +143,7 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         // ["you", "bow"],
         ["need", "bulb"],
         ["$", "dollar"],
+        ["really", "confetti_ball"],
         // ["i","sunglasses"],
         ["cool", "sunglasses"],
         ["great", "raised_hands"],
