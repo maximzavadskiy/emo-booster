@@ -326,7 +326,14 @@ function reportAirTime({userCharacters, totalCharacters, groupSize, channel}, {b
 //    });
 // });
 
+
+
 controller.hears('', [ 'ambient'] , function (bot, message) {
+    // Add 50 emojis, 5 emojis to choose
+    // cool
+    // good job
+    // great
+
    var emojisPairs = [
         ["but","face_with_raised_eyebrow"],
         ["not","woman-gesturing-no"],
@@ -389,7 +396,6 @@ controller.on('interactive_message_callback', function(bot, message) {
        }
     });
 
-    bot.replyInteractive(message, ".");
     // debugger;
     bot.api.chat.delete({
         ts: message.message_ts,
