@@ -335,6 +335,12 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
     // great
 
    var emojisPairs = [
+        ["you", "bow"],
+        ["need", "bulb"],
+        ["i","sunglasses"],
+        ["cool", "sunglasses"],
+        ["great", "raised_hands"],
+        ["job", "muscle"],
         ["but","face_with_raised_eyebrow"],
         ["not","woman-gesturing-no"],
         ["we","hugging_face"],
