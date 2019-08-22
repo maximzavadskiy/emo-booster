@@ -352,60 +352,33 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
     if(!_.isEmpty(emojisToAdd)) {
         const getContent = (emojis) => ({
         // "response_type": "in_channel",
-        "blocks": [
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": `Add emoji`
-          }
-        },
-        {
-            "type": "actions",
-            "elements": [
-                {
-                    "type": "button",
-                    "text": {
-                        "type": "plain_text",
-                        "emoji": true,
-                        "text": `:${emojis[0]}:`
-                    },
-                    "value": emojis[0]
-                }
-            ]
-        }
-      ]})
-
-        bot.reply(message, 
-        // "response_type": "in_channel",
-        {
         attachments: [
             {
-                title: 'Do you want to interact with my buttons?',
+                title: 'Add emojis',
                 callback_id: '123',
                 attachment_type: 'default',
-                actions: [
-                    {
+                actions: _.map(emojis, (emoji) => ({
                         "name":"yes",
-                        "text": "Yes",
+                        "text": `:${emoji}:`,
                         "value": "yes",
                         "type": "button",
-                    },
-                    {
-                        "name":"no",
-                        "text": "No",
-                        "value": "no",
-                        "type": "button",
-                    }
-                ]
+                }))
+                
             }
         ]
-    }) ; //getContent(emojisToAdd   )
+
+      })
+
+        bot.reply(message, getContent(emojisToAdd) )
 
     }
    
 });
 
+
+controller.on('block_actions', function(bot, message) {
+    bot.reply(message, "You clicked")
+});
 
 
    // emojisPairs.forEach((emojiPair) => {
