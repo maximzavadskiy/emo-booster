@@ -350,7 +350,7 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
     )
     debugger;
     if(!_.isEmpty(emojisToAdd)) {
-        const getContent = (emojis) => ({
+        const getContent = (emojis, message) => ({
         // "response_type": "in_channel",
         attachments: [
             {
@@ -358,9 +358,9 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
                 callback_id: '123',
                 attachment_type: 'default',
                 actions: _.map(emojis, (emoji) => ({
-                        "name":"yes",
+                        "name": `${emoji}`,
                         "text": `:${emoji}:`,
-                        "value": "yes",
+                        "value": `${message.ts},${message.channel}`,
                         "type": "button",
                 }))
                 
@@ -369,16 +369,29 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
 
       })
 
-        bot.reply(message, getContent(emojisToAdd) )
+        bot.reply(message, getContent(emojisToAdd, message) )
 
     }
    
 });
 
+controller.on('interactive_message_callback', function(bot, message) {
+    const messageInfoPair = message.actions[0].value.split(",")
 
-controller.on('block_actions', function(bot, message) {
-    bot.reply(message, "You clicked")
-});
+    bot.api.reactions.add({
+               timestamp: messageInfoPair[0],
+               channel: messageInfoPair[1],
+               name:  message.actions[0].name,
+    }, function (err) {
+       if (err) {
+           console.log(err)
+       }
+    });
+})
+
+    // check message.actions and message.callback_id to see what action to take...
+
+
 
 
    // emojisPairs.forEach((emojiPair) => {
