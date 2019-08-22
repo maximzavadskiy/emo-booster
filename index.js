@@ -352,6 +352,7 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
     if(!_.isEmpty(emojisToAdd)) {
         const getContent = (emojis, message) => ({
         // "response_type": "in_channel",
+        response_type: "ephemeral",
         attachments: [
             {
                 title: 'Add emojis',
@@ -369,7 +370,7 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
 
       })
 
-        bot.reply(message, getContent(emojisToAdd, message) )
+        bot.reply(message, getContent(emojisToAdd, message))
 
     }
    
@@ -387,6 +388,18 @@ controller.on('interactive_message_callback', function(bot, message) {
            console.log(err)
        }
     });
+
+    bot.replyInteractive(message, ".");
+    // debugger;
+    bot.api.chat.delete({
+        ts: message.message_ts,
+        channel: messageInfoPair[1]
+    }, function (err) {
+       if (err) {
+           console.log(err)
+       }
+    })
+
 })
 
     // check message.actions and message.callback_id to see what action to take...
