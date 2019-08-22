@@ -31,10 +31,11 @@ function onInstallation(bot, installer) {
  */
 
 var config = {};
-if (process.env.MONGOLAB_URI) {
+if (process.env.MONGO_URI) {
+    console.log(process.env.MONGO_URI)
     var BotkitStorage = require('botkit-storage-mongo');
     config = {
-        storage: BotkitStorage({mongoUri: process.env.MONGOLAB_URI}),
+        storage: BotkitStorage({mongoUri: process.env.MONGO_URI}),
     };
 } else {
     config = {
