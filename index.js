@@ -143,6 +143,7 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         // ["you", "bow"],
         ["need", "bulb"],
         ["$", "dollar"],
+        ["!", "tada"],
         ["really", "confetti_ball"],
         // ["i","sunglasses"],
         ["cool", "sunglasses"],
@@ -154,6 +155,8 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         ["we","hugging_face"],
         ["lets","star-struck"],
         ["let's","star-struck"],
+        // ["fuck",""],
+        // ["shit","star-struck"],
         ["can", "muscle"],
         ["like", "+1"],
         ["need", "pray"],
@@ -168,8 +171,9 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         _.filter(emojisPairs, (emojiPair) => _.includes(_.toLower(message.text), emojiPair[0])),
         "[1]"
     )
-    debugger;
     if(!_.isEmpty(emojisToAdd)) {
+        console.log(`OFFER ${JSON.stringify(message)} ${bot.team_info.domain}`)
+
         const getContent = (emojis, message) => ({
         // "response_type": "in_channel",
         response_type: "ephemeral",
@@ -199,6 +203,10 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
 controller.on('interactive_message_callback', function(bot, message) {
     const messageInfoPair = message.actions[0].value.split(",")
 
+    // debugger;
+
+    console.log(`ADD ${JSON.stringify(message)}`)
+
     bot.api.reactions.add({
                timestamp: messageInfoPair[0],
                channel: messageInfoPair[1],
@@ -209,7 +217,6 @@ controller.on('interactive_message_callback', function(bot, message) {
        }
     });
 
-    // debugger;
     bot.api.chat.delete({
         ts: message.message_ts,
         channel: messageInfoPair[1]
