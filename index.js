@@ -92,6 +92,7 @@ var access_token = process.env.AUTH_TOKEN
 
 
 controller.on('bot_channel_join', function (bot, message) {
+    console.log(`INVITE ${JSON.stringify(message)}`);
     bot.reply(message, "Thanks for invite! From time to time I will be adding some emojis as reactions based on what you type.")
 });
 
@@ -202,4 +203,8 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         })
     }
    
+});
+
+controller.on('reaction_added',function(bot, event) {
+   console.log(`REACTED ${JSON.stringify(event)}`)
 });
