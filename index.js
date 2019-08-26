@@ -92,45 +92,8 @@ var access_token = process.env.AUTH_TOKEN
 
 
 controller.on('bot_channel_join', function (bot, message) {
-    bot.reply(message, "Thanks for invite! From time to time I will be offering some emojis based on what you type.")
+    bot.reply(message, "Thanks for invite! From time to time I will be adding some emojis as reactions based on what you type.")
 });
-
-// controller.hears(['what'], [ 'ambient'] , function (bot, message) {
-//    bot.api.reactions.add({
-//        timestamp: message.ts,
-//        channel: message.channel,
-//        name: 'confused',
-//    }, function (error) {
-//        if (err) {
-//            console.log(err)
-//        }
-//    });
-// });
-
-// controller.hears(['yes'], [ 'ambient'] , function (bot, message) {
-//    bot.api.reactions.add({
-//        timestamp: message.ts,
-//        channel: message.channel,
-//        name: 'smile',
-//    }, function (error) {
-//        if (err) {
-//            console.log(err)
-//        }
-//    });
-// });
-
-// controller.hears(['sorry'], [ 'ambient'] , function (bot, message) {
-//    bot.api.reactions.add({
-//        timestamp: message.ts,
-//        channel: message.channel,
-//        name: 'expressionless',
-//    }, function (error) {
-//        if (err) {
-//            console.log(err)
-//        }
-//    });
-// });
-
 
 
 controller.hears('', [ 'ambient'] , function (bot, message) {
@@ -140,10 +103,8 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
     // great
 
    var emojisPairs = [
-        // ["you", "bow"],
-        ["need", "bulb"],
         ["$", "dollar"],
-        ["!", "tada"],
+        // ["!", "tada"],
         ["really", "confetti_ball"],
         // champage bottle - drink
         // Lunch time! - lunch bowl
@@ -175,80 +136,21 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         _.filter(emojisPairs, (emojiPair) => _.includes(_.toLower(message.text), emojiPair[0])),
         "[1]"
     )
+
     if(!_.isEmpty(emojisToAdd)) {
-        console.log(`OFFER ${JSON.stringify(message)} ${bot.team_info.domain}`)
+        console.log(`OFFER ${JSON.stringify(message)} EMOJIS ${JSON.stringify(emojisToAdd)} ${bot.team_info.domain} `)
 
-        const getContent = (emojis, message) => ({
-        // "response_type": "in_channel",
-        response_type: "ephemeral",
-        attachments: [
-            {
-                title: 'Add emojis',
-                callback_id: '123',
-                attachment_type: 'default',
-                actions: _.map(emojis, (emoji) => ({
-                        "name": `${emoji}`,
-                        "text": `:${emoji}:`,
-                        "value": `${message.ts},${message.channel}`,
-                        "type": "button",
-                }))
-                
-            }
-        ]
-
-      })
-
-        bot.reply(message, getContent(emojisToAdd, message))
-
+        _.map(emojisToAdd, (emoji) => {
+            bot.api.reactions.add({
+                       timestamp: message.ts,
+                       channel: message.channel,
+                       name:  emoji,
+            }, function (err) {
+               if (err) {
+                   console.log(err)
+               } 
+            });
+        })
     }
    
 });
-
-controller.on('interactive_message_callback', function(bot, message) {
-    const messageInfoPair = message.actions[0].value.split(",")
-
-    // debugger;
-
-    console.log(`ADD ${JSON.stringify(message)}`)
-
-    bot.api.reactions.add({
-               timestamp: messageInfoPair[0],
-               channel: messageInfoPair[1],
-               name:  message.actions[0].name,
-    }, function (err) {
-       if (err) {
-           console.log(err)
-       }
-    });
-
-    bot.api.chat.delete({
-        ts: message.message_ts,
-        channel: messageInfoPair[1]
-    }, function (err) {
-       if (err) {
-           console.log(err)
-       }
-    })
-
-})
-
-    // check message.actions and message.callback_id to see what action to take...
-
-
-
-
-   // emojisPairs.forEach((emojiPair) => {
-   //      // TODO split in words
-   //      debugger;
-   //      if(_.includes(_.toLower(message.text), emojiPair[0])) {
-   //          bot.api.reactions.add({
-   //             timestamp: message.ts,
-   //             channel: message.channel,
-   //             name: emojiPair[1],
-   //          }, function (err) {
-   //             if (err) {
-   //                 console.log(err)
-   //             }
-   //          });
-   //      }
-   // })
