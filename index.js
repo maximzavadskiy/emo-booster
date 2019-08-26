@@ -145,6 +145,10 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         ["$", "dollar"],
         ["!", "tada"],
         ["really", "confetti_ball"],
+        // champage bottle - drink
+        // Lunch time! - lunch bowl
+        // :crying_face_with_facepalm: - by chang
+        // party_parrot, face with dollar money - ICO,
         // ["i","sunglasses"],
         ["cool", "sunglasses"],
         ["great", "raised_hands"],
