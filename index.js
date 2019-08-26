@@ -103,33 +103,81 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
     // great
 
    var emojisPairs = [
-        ["$", "dollar"],
-        // ["!", "tada"],
-        ["really", "confetti_ball"],
-        // champage bottle - drink
-        // Lunch time! - lunch bowl
-        // :crying_face_with_facepalm: - by chang
-        // party_parrot, face with dollar money - ICO,
-        // ["i","sunglasses"],
+        // POSITIVE FEELINGS
         ["cool", "sunglasses"],
-        ["great", "raised_hands"],
-        ["job", "muscle"],
-        ["but","face_with_raised_eyebrow"],
-        ["not","woman-gesturing-no"],
-        ["we","hugging_face"],
-        ["we","hugging_face"],
-        ["lets","star-struck"],
-        ["let's","star-struck"],
-        // ["fuck",""],
-        // ["shit","star-struck"],
         ["can", "muscle"],
+        ["great", "raised_hands"],
+        ["great", "muscle"],
         ["like", "+1"],
-        ["need", "pray"],
-        ["if", "smirk"],
+        ["amazing", "star-struck"],
+        ["amazing", "muscle"],
+        ["amazing", "raised_hands"],
+        ["best", "grin"],
+        ["laugh", "grin"],
+        ["happy", "grin"],
+        ["well", "simple_smile"],
+        ["well", "raised_hands"],
+        ["nice", "raised_hands"],
+        ["beautiful", "raised_hands"],
+        ["beautiful", "sunflower"],
+
+        // SYMBOLS performance - stop
+        ["job", "muscle"],
+        ["engine", "racing_motorcycle"],
+        ["news", "trumpet"],
         ["meeting", "handshake"],
-        ["yes,", "star-struck"],
+        ["together", "handshake"],
+        ["$", "money_mouth_face"], // face with dollar money
+
+        // POWER WORDS
+        ["omg", "man-facepalming"],
+        ["super", "man-facepalming"],
+        ["omg", "heart_eyes"],
+        ["super", "heart_eyes"],
+
+        // NEGATIVE FEELINGS
+        ["need", "pray"],
         ["sorry", "slightly_frowning_face"],
-        ["together", "handshake"]
+        ["cry", "cry"],
+        ["sad", "cry"],
+        ["hard", "sweat"],
+        ["hard", "sweat_drops"],
+        ["shit", "shit"],
+        ["shit", "cry"],
+        ["shit", "fuck"],
+        ["shit", "cry"],
+
+
+        // AFTERWORK
+        ["celebration", "champagne"],
+        ["celebration", "raised_hands"],
+        ["celebration", "wine_glass"],
+        ["celebration", "wine_glass"],  
+        ["celebration", "tada"],  
+        ["party", "champagne"],  
+        ["party", "beer"],  
+        ["party", "wine_glass"],  
+        ["drink", "beer"],  
+        ["drink", "potable_water"],  
+        ["drink", "champagne"],  
+        ["lunch", "bowl_with_spoon"],
+        ["lunch", "chopsticks"],
+        ["lunch", "hatching_chick"],
+        ["lunch", "tongue"],
+        ["hungry", "bowl_with_spoon"],
+        ["hungry", "chopsticks"],
+        ["hungry", "hatching_chick"],
+        ["hungry", "tongue"],
+        ["let's go", "woman-running"],
+        ["let's go", "timer_clock"],
+        ["lets go", "woman-running"],
+        ["lets go", "timer_clock"],
+
+        
+        // HOME weekend, sleep, vacation
+        ["home", "house"],
+
+        
    ];
 
     const emojisToAdd = _.map(
