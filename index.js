@@ -144,9 +144,10 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         ["hard", "sweat_drops"],
         ["shit", "shit"],
         ["shit", "cry"],
-        ["shit", "fuck"],
-        ["shit", "cry"],
-
+        ["shit", "man-facepalming"],
+        ["fuck", "shit"],
+        ["fuck", "cry"],
+        ["fuck", "man-facepalming"],
 
         // AFTERWORK
         ["celebration", "champagne"],
