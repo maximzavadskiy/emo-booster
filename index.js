@@ -97,6 +97,18 @@ controller.on('bot_channel_join', function (bot, message) {
     bot.reply(message, "Thanks for invite! From time to time I will be adding some emojis as reactions based on what you type.")
 });
 
+controller.on('reaction_added',function(bot, event) {
+   console.log(`REACTED ${JSON.stringify(event)}`)
+});
+
+controller.hears(
+    '',
+    ['direct_message'],
+    function(bot,message) {
+        console.log(`DIRECT_MESSAGE ${JSON.stringify(message)}`)
+    }
+);
+
 
 controller.hears('', [ 'ambient'] , function (bot, message) {
     // Add 50 emojis, 5 emojis to choose
@@ -194,17 +206,17 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
     if(!_.isEmpty(emojisToAdd)) {
         console.log(`OFFER ${JSON.stringify(message)} EMOJIS ${JSON.stringify(emojisToAdd)} ${bot.team_info.domain} `)
 
-        _.map(emojisToAdd, (emoji) => {
-            bot.api.reactions.add({
-                       timestamp: message.ts,
-                       channel: message.channel,
-                       name:  emoji,
-            }, function (err) {
-               if (err) {
-                   console.log(err)
-               } 
-            });
-        })
+        // _.map(emojisToAdd, (emoji) => {
+        //     bot.api.reactions.add({
+        //                timestamp: message.ts,
+        //                channel: message.channel,
+        //                name:  emoji,
+        //     }, function (err) {
+        //        if (err) {
+        //            console.log(err)
+        //        } 
+        //     });
+        // })
 
         // debugger;
         // bot.api.chat.postEphemeral({
@@ -216,18 +228,68 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         //            console.log(err)
         //        } 
         // });
+
+        const getContent = (emojis, message) => ({
+                // "response_type": "in_channel",
+                response_type: "ephemeral",
+                attachments: [
+                    {
+                        title: 'Add emojis',
+                        callback_id: '123',
+                        attachment_type: 'default',
+                        actions: _.map([].concat(emojis).concat("Close"), (emoji) => ({
+                                "name": `${emoji}`,
+                                "text": `:${emoji}:`,
+                                "value": `${message.ts},${message.channel}`,
+                                "type": "button",
+                        }))
+                        
+                    }
+                ]
+
+        })
+
+        bot.reply(message, getContent(emojisToAdd, message))
     }
    
 });
 
-controller.on('reaction_added',function(bot, event) {
-   console.log(`REACTED ${JSON.stringify(event)}`)
-});
 
-controller.hears(
-    '',
-    ['direct_message'],
-    function(bot,message) {
-        console.log(`DIRECT_MESSAGE ${JSON.stringify(message)}`)
-    }
-);
+
+//     if(!_.isEmpty(emojisToAdd)) {
+//         console.log(`OFFER ${JSON.stringify(message)} ${bot.team_info.domain}`)
+
+        
+//     }
+   
+// });
+
+
+
+controller.on('interactive_message_callback', function(bot, message) {
+    const messageInfoPair = message.actions[0].value.split(",")
+
+    // debugger;
+
+    console.log(`ADD ${JSON.stringify(message)}`)
+
+    bot.api.reactions.add({
+               timestamp: messageInfoPair[0],
+               channel: messageInfoPair[1],
+               name:  message.actions[0].name,
+    }, function (err) {
+       if (err) {
+           console.log(err)
+       }
+    });
+
+    bot.api.chat.delete({
+        ts: message.message_ts,
+        channel: messageInfoPair[1]
+    }, function (err) {
+       if (err) {
+           console.log(err)
+       }
+    })
+
+})
