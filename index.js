@@ -17,7 +17,8 @@ function onInstallation(bot, installer) {
                 console.log(err);
             } else {
                 convo.say("Hi & nice to meet you! I am EmoBond, bot that makes your messages fun & sometimes more precise")
-                convo.say("Invite me to your channels & I will be make it super-easy to add emojis to your messages. No more :blablabla: typying.")
+                convo.say("Invite me to your channels & I will automatically add emojis as reactions to your messages. No more :blablabla: typying.")
+                convo.say("If you have any feedback to creators just write to me here & I will forward it!")
                 // convo.say('You must now /invite me to a channel so that I can be of use!');
             }
         });
