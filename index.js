@@ -108,7 +108,7 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         // POSITIVE FEELINGS
         ["cool", "sunglasses"],
 
-        ["can", "muscle"],
+        // ["can", "muscle"],
         ["great", "raised_hands"],
         ["great", "muscle"],
         ["like", "+1"],
