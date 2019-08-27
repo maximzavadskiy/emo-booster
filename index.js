@@ -106,6 +106,7 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
    var emojisPairs = [
         // POSITIVE FEELINGS
         ["cool", "sunglasses"],
+
         ["can", "muscle"],
         ["great", "raised_hands"],
         ["great", "muscle"],
@@ -128,7 +129,9 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         ["news", "trumpet"],
         ["meeting", "handshake"],
         ["together", "handshake"],
-        ["$", "money_mouth_face"], // face with dollar money
+        ["$", "money_mouth_face"],
+        ["dagger", "dagger_knife"],
+        ["feedback", "dagger_knife"],
 
         // POWER WORDS
         ["omg", "man-facepalming"],
