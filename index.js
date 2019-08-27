@@ -211,3 +211,11 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
 controller.on('reaction_added',function(bot, event) {
    console.log(`REACTED ${JSON.stringify(event)}`)
 });
+
+controller.hears(
+    '',
+    ['direct_message'],
+    function(bot,message) {
+        console.log(`DIRECT_MESSAGE ${JSON.stringify(message)}`)
+    }
+);
