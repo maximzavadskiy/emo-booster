@@ -205,6 +205,17 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
                } 
             });
         })
+
+        // debugger;
+        // bot.api.chat.postEphemeral({
+        //     channel: message.channel,
+        //     text: 'are you sure?',
+        //     user: message.user
+        // }, function (err) {
+        //        if (err) {
+        //            console.log(err)
+        //        } 
+        // });
     }
    
 });
