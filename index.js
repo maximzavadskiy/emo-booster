@@ -258,25 +258,27 @@ controller.on('interactive_message_callback', function(bot, message) {
 
     const offerAuthorize = () => bot.reply(message, 'Seems you have not authorized me to add emojis. Go to https://emo-boost.herokuapp.com/login')
 
-    bot.botkit.storage.users.get(message.user).then((userInfo ) =>{
-        bot.api.chat.update({
-                   ts: originalMessage.ts,
-                   channel: originalMessage.channel,
-                   text: originalMessage.text + ` :${message.actions[0].name}:`,
-                   token: userInfo.access_token
-        }, function (err, err2) {
-            
-           if (err) {
-               console.log('Error adding emoji', JSON.stringify(err), err2)
-               offerAuthorize();
-           } else {
-                console.log("ADDED EMOJI")
-           }
-        });
-    }).catch((e) => {
-        console.log('ERROR while adding emoji', e)
-        offerAuthorize();
-    })
+    if(message.actions[0].name != "Close") {
+        bot.botkit.storage.users.get(message.user).then((userInfo ) =>{
+            bot.api.chat.update({
+                       ts: originalMessage.ts,
+                       channel: originalMessage.channel,
+                       text: originalMessage.text + ` :${message.actions[0].name}:`,
+                       token: userInfo.access_token
+            }, function (err, err2) {
+                
+               if (err) {
+                   console.log('Error adding emoji', JSON.stringify(err), err2)
+                   offerAuthorize();
+               } else {
+                    console.log("ADDED EMOJI")
+               }
+            });
+        }).catch((e) => {
+            console.log('ERROR while adding emoji', e)
+            offerAuthorize();
+        })
+    }
 
 
     bot.api.chat.delete({
