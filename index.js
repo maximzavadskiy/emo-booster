@@ -262,7 +262,7 @@ controller.on('interactive_message_callback', function(bot, message) {
         bot.api.chat.update({
                    ts: originalMessage.ts,
                    channel: originalMessage.channel,
-                   text: originalMessage.text + `Edited`,
+                   text: originalMessage.text + ` :${message.actions[0].name}:`,
                    token: userInfo.access_token
         }, function (err, err2) {
             
