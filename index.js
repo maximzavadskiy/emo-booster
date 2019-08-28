@@ -115,15 +115,12 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
     // cool
     // good job
     // great
-
    var emojisPairs = [
         // POSITIVE FEELINGS
         ["cool", "sunglasses"],
 
-        // ["can", "muscle"],
         ["great", "raised_hands"],
         ["great", "muscle"],
-        ["like", "+1"],
         ["amazing", "star-struck"],
         ["amazing", "muscle"],
         ["amazing", "raised_hands"],
@@ -254,34 +251,32 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
    
 });
 
-
-
-//     if(!_.isEmpty(emojisToAdd)) {
-//         console.log(`OFFER ${JSON.stringify(message)} ${bot.team_info.domain}`)
-
-        
-//     }
-   
-// });
-
-
-
 controller.on('interactive_message_callback', function(bot, message) {
     const messageInfoPair = message.actions[0].value.split(",")
 
-    // debugger;
-
     console.log(`ADD ${JSON.stringify(message)}`)
 
-    bot.api.reactions.add({
-               timestamp: messageInfoPair[0],
-               channel: messageInfoPair[1],
-               name:  message.actions[0].name,
-    }, function (err) {
-       if (err) {
-           console.log(err)
-       }
-    });
+    bot.botkit.storage.users.get(message.user).then((userInfo ) =>{
+        if (_.isEmpty(userInfo.access_token)) {
+            console.log('Error no token for User', userInfo)
+            bot.reply(message, 'You didnt authorize bot to edit your messages, so I cant do that')
+        }
+        bot.api.chat.update({
+                   ts: messageInfoPair[0],
+                   channel: messageInfoPair[1],
+                   text: "Whops",
+                   // token: bot.config.bot.app_token
+                   token: userInfo.access_token
+        }, function (err, err2) {
+            
+           if (err) {
+               console.log('Error adding emoji', JSON.stringify(err), err2)
+           } else {
+                console.log("ADDED EMOJI")
+           }
+        });
+    }).catch((e) => console.log('Error finding user', e))
+
 
     bot.api.chat.delete({
         ts: message.message_ts,
