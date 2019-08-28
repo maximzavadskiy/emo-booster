@@ -256,26 +256,28 @@ controller.on('interactive_message_callback', function(bot, message) {
 
     console.log(`ADD ${JSON.stringify(message)}`)
 
+    const offerAuthorize = () => bot.reply(message, 'Seems you have not authorized me to add emojis. Go to https://emo-boost.herokuapp.com/login')
+
     bot.botkit.storage.users.get(message.user).then((userInfo ) =>{
-        if (_.isEmpty(userInfo.access_token)) {
-            console.log('Error no token for User', userInfo)
-            bot.reply(message, 'You didnt authorize bot to edit your messages, so I cant do that')
-        }
         bot.api.chat.update({
                    ts: messageInfoPair[0],
                    channel: messageInfoPair[1],
                    text: "Whops",
                    // token: bot.config.bot.app_token
-                   token: userInfo.access_token
+                   // token: userInfo.access_token
         }, function (err, err2) {
             
            if (err) {
                console.log('Error adding emoji', JSON.stringify(err), err2)
+               offerAuthorize();
            } else {
                 console.log("ADDED EMOJI")
            }
         });
-    }).catch((e) => console.log('Error finding user', e))
+    }).catch((e) => {
+        console.log('ERROR while adding emoji', e)
+        offerAuthorize();
+    })
 
 
     bot.api.chat.delete({
