@@ -237,7 +237,7 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
                         actions: _.map([].concat(emojis).concat("Close"), (emoji) => ({
                                 "name": `${emoji}`,
                                 "text": `:${emoji}:`,
-                                "value": `${message.ts},${message.channel}`,
+                                "value": JSON.stringify(message),
                                 "type": "button",
                         }))
                         
@@ -252,7 +252,7 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
 });
 
 controller.on('interactive_message_callback', function(bot, message) {
-    const messageInfoPair = message.actions[0].value.split(",")
+    const originalMessage = JSON.parse(message.actions[0].value)
 
     console.log(`ADD ${JSON.stringify(message)}`)
 
@@ -260,11 +260,10 @@ controller.on('interactive_message_callback', function(bot, message) {
 
     bot.botkit.storage.users.get(message.user).then((userInfo ) =>{
         bot.api.chat.update({
-                   ts: messageInfoPair[0],
-                   channel: messageInfoPair[1],
-                   text: "Whops",
-                   // token: bot.config.bot.app_token
-                   // token: userInfo.access_token
+                   ts: originalMessage.ts,
+                   channel: originalMessage.channel,
+                   text: originalMessage.text + `Edited`,
+                   token: userInfo.access_token
         }, function (err, err2) {
             
            if (err) {
@@ -282,7 +281,7 @@ controller.on('interactive_message_callback', function(bot, message) {
 
     bot.api.chat.delete({
         ts: message.message_ts,
-        channel: messageInfoPair[1]
+        channel: originalMessage.channel
     }, function (err) {
        if (err) {
            console.log(err)
