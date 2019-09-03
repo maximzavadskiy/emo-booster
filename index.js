@@ -256,7 +256,7 @@ controller.on('interactive_message_callback', function(bot, message) {
 
     console.log(`ADD ${JSON.stringify(message)}`)
 
-    const offerAuthorize = () => bot.reply(message, 'Seems you have not authorized me to add emojis. Go to https://emo-boost.herokuapp.com/login')
+    const offerAuthorize = () => bot.reply(message, `Seems you have not authorized me to add emojis. Go to ${process.env.AUTH_URL} and lets try again after that`)
 
     if(message.actions[0].name != "Close") {
         bot.botkit.storage.users.get(message.user).then((userInfo ) =>{
