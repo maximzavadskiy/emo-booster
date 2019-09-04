@@ -101,6 +101,15 @@ controller.on('reaction_added',function(bot, event) {
    console.log(`REACTED ${JSON.stringify(event)}`)
 });
 
+controller.on('im_marked',function(bot, event) {
+   console.log(`READ_BOT_DM im_marked ${JSON.stringify(event)}`)
+});
+
+controller.on('app_home_opened',function(bot, event) {
+   console.log(`OPEN_BOT_HOME ${JSON.stringify(event)}`)
+});
+
+
 controller.hears(
     '',
     ['direct_message'],
