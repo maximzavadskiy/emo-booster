@@ -309,3 +309,11 @@ controller.on('interactive_message_callback', function(bot, message) {
     })
 
 })
+
+// let bot = await controller.spawn(SLACK_TEAM_ID);
+
+// // Set the context for the bot's next action...
+// await bot.startPrivateConversation(SLACK_ADMIN_USER);
+
+// // Begin a dialog in the 1:1 context
+// await bot.beginDialog(ALERT_DIALOG);
