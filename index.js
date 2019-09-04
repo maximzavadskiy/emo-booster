@@ -231,10 +231,8 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
         //        } 
         // });
 
-        const getContent = (emojis, message) => ({
-                // "response_type": "in_channel",
-                response_type: "ephemeral",
-                attachments: [
+        const getContent = (emojis, message) => (
+                [
                     {
                         title: 'Add emojis',
                         callback_id: '123',
@@ -249,9 +247,21 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
                     }
                 ]
 
-        })
+        )
 
-        bot.reply(message, getContent(emojisToAdd, message))
+
+        // bot.reply(message, getContent(emojisToAdd, message))
+        debugger    
+        bot.api.callAPI('chat.postEphemeral', {
+            channel: message.channel,
+            user: message.user,
+             // attachments: JSON.stringify([{"pretext": "pre-hello", "text": "text-world"}])
+            attachments: JSON.stringify(getContent(emojisToAdd, message)),
+        }, (e, desc) => {
+            if(e) {
+                console.log('error occured', e, desc)
+            }
+        })
     }
    
 });
@@ -287,12 +297,14 @@ controller.on('interactive_message_callback', function(bot, message) {
     }
 
 
-    bot.api.chat.delete({
-        ts: message.message_ts,
-        channel: originalMessage.channel
-    }, function (err) {
+    bot.replyInteractive(message, {
+        'response_type': 'ephemeral',
+        'text': '',
+        'replace_original': true,
+        'delete_original': true
+    }, function (err, desc) {
        if (err) {
-           console.log(err)
+           console.log('Error removing bots message', err, desc)
        }
     })
 
