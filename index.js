@@ -313,11 +313,11 @@ controller.on('interactive_message_callback', function(bot, message) {
 controller.webserver.get('/message',  (req, res) => {
         // var bot = globalBot
         const teamId = req.query.team_id
-        const userId = 'UMHSQDM1B'
-        const channelId = 'DMBQP3FFB'
+        const userId = req.query.user_id // UMHSQDM1B, eric UMT68EZ5F
+        // const channelId = 'DMBQP3FFB'
         const bot = controller.spawn(teamId)
 
-        bot.botkit.storage.users.get(userId).then((userInfo ) =>{
+        bot.botkit.storage.teams.get(teamId).then((teamInfo ) =>{
             // bot.api.chat.update({
             //            ts: originalMessage.ts,
             //            channel: originalMessage.channel,
@@ -325,12 +325,13 @@ controller.webserver.get('/message',  (req, res) => {
             //            token: userInfo.access_token
 
             //        })
-
+            debugger;
             bot.api.callAPI('chat.postMessage', {
-                token: userInfo.access_token,
-                channel: channelId,
+                token: teamInfo.bot.token,
+                channel: userId,
                 user: userId,
-                text: "Hello from /message"
+                as_user: true, 
+                text: "Hello from /message",
             }, (e, desc) => {
                 if(e) {
                     console.log('Error occured', e, desc)
