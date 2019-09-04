@@ -105,7 +105,7 @@ controller.hears(
     '',
     ['direct_message'],
     function(bot,message) {
-        console.log(`DIRECT_MESSAGE ${JSON.stringify(message)}`)
+        console.log(`DIRECT_MESSAGE '${message.text}' ${JSON.stringify(message)}`)
     }
 );
 
