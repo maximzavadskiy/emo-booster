@@ -314,7 +314,7 @@ controller.webserver.get('/message',  (req, res) => {
                 if(e) {
                     console.log('Error occured', e, desc)
                 } else {
-                    console.log('DIRECT_MESSAGE BOT:', desc)
+                    console.log('DIRECT_MESSAGE BOT:', JSON.stringify(desc))
                 }
             })
         }).catch((e) => {
