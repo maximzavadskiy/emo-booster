@@ -105,7 +105,7 @@ controller.hears(
     '',
     ['direct_message'],
     function(bot,message) {
-        console.log(`DIRECT_MESSAGE '${message.text}' ${JSON.stringify(message)}`)
+        console.log(`DIRECT_MESSAGE USER: '${message.text}' ${JSON.stringify(message)}`)
     }
 );
 
@@ -208,29 +208,6 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
     if(!_.isEmpty(emojisToAdd)) {
         console.log(`OFFER ${JSON.stringify(message)} EMOJIS ${JSON.stringify(emojisToAdd)} ${bot.team_info.domain} `)
 
-        // _.map(emojisToAdd, (emoji) => {
-        //     bot.api.reactions.add({
-        //                timestamp: message.ts,
-        //                channel: message.channel,
-        //                name:  emoji,
-        //     }, function (err) {
-        //        if (err) {
-        //            console.log(err)
-        //        } 
-        //     });
-        // })
-
-        // debugger;
-        // bot.api.chat.postEphemeral({
-        //     channel: message.channel,
-        //     text: 'are you sure?',
-        //     user: message.user
-        // }, function (err) {
-        //        if (err) {
-        //            console.log(err)
-        //        } 
-        // });
-
         const getContent = (emojis, message) => (
                 [
                     {
@@ -314,6 +291,7 @@ controller.webserver.get('/message',  (req, res) => {
         // var bot = globalBot
         const teamId = req.query.team_id
         const userId = req.query.user_id // UMHSQDM1B, eric UMT68EZ5F
+        const text = req.query.text
         // const channelId = 'DMBQP3FFB'
         const bot = controller.spawn(teamId)
 
@@ -331,87 +309,17 @@ controller.webserver.get('/message',  (req, res) => {
                 channel: userId,
                 user: userId,
                 as_user: true, 
-                text: "Hello from /message",
+                text: text,
             }, (e, desc) => {
                 if(e) {
                     console.log('Error occured', e, desc)
+                } else {
+                    console.log('DIRECT_MESSAGE BOT:', desc)
                 }
             })
         }).catch((e) => {
             console.log('ERROR ', e)
         })
-
-        // bot.startPrivateConversation(userId, function(err, bot) {
-        //     debugger
-        //     console.log('SPAWNED bot for team', teamId, 'error: ', err, bot)
-        // })
-
-        // // console.log('Check bot', bot, globalBot)
-        // var channelsMsgs = null;
-
-        // axios
-        // .get('https://slack.com/api/conversations.list?token='+ access_token + '&channel=public_channel,private_channel,mpim,im')
-        // .then((data,err) => {
-        //     var startTime = moment().subtract(1,'days').startOf('day').add(9, 'hours').unix()
-
-        //     const msgsRequests = _.map(_.get(data, 'data.channels'), (channel) => 
-        //             axios.get('https://slack.com/api/conversations.history', {
-        //                 params: {
-        //                     token: access_token,
-        //                     channel: channel.id,
-        //                     oldest: startTime,
-        //                     limit: 1000,
-        //                     _channelData: {
-        //                         data: channel
-        //                     }
-        //                 }, 
-        //         }))
-        //     return Promise.all(msgsRequests)
-        // })
-        // .then( (_channelsMsgs) => {
-        //     const messagesToSave = _.flatten(_.map(_channelsMsgs, (channel) => _.map(channel.data.messages, (message) => _.assign({}, message, {channel: channel.config.params._channelData.data.id}))))
-        //     channelsMsgs = _channelsMsgs
-        //     Messages.create(messagesToSave, function (err) {
-        //       console.log(`Saved ${messagesToSave.length} messages to the DB with possible err`, err )
-        //     });
-        //     debugger
-
-        //     return axios
-        //     .get('https://slack.com/api/users.list?token='+access_token)
-        // })
-        // .then((users) => {
-        //     // console.log(users.data)
-        //     _.map(users.data.members, ({id: userId}) => {
-        //         const stats = _.map(channelsMsgs, (channel) => _.assign( {}, channelStats(channel.data, userId), {channel: channel.config.params._channelData.data}))
-        //         const topChannelStats = _
-        //         .chain(stats)
-        //         .filter((stat) => stat.userCharacters > 50 && stat.groupSize > 1 )
-        //         .sortBy('userCharacters')
-        //         .takeRight(3 )
-        //         .reverse()
-        //         .value()
-                
-        //         bot.startPrivateConversation({user: userId}, function (err, convo) {
-        //             if (err) {
-        //                 console.log(err);
-        //             } else {
-        //                 if (!_.isEmpty(topChannelStats)) {
-        //                     var report = 
-        //                     'Happy to notice you were using slack yesterday! Your most used channels were: '+ _.map(topChannelStats, 'channel.name').join(', ') + '\n' +
-        //                     'I collected some insights for those channels - \n\n' +
-        //                     _.map(topChannelStats, (channelStats) => reportAirTime(channelStats, {bot, user: userId, convo})).join('\n\n')
-        //                     + `\n\n Not happy with what the bot says? <https://etceducation.typeform.com/to/i9ZRER?user_id=${userId}|Report message/bot>`;
-        //                     convo.say(report)
-        //                 }
-        //             }
-        //          });
-        //     })
-        // }) 
-        // .catch((error)  => {
-        //     console.log('Error occured ' +  error); 
-        //     bot.reply('Error occured ' +  error)
-        // })
-
 
     res.status(200);
     res.send("ok");
