@@ -109,12 +109,17 @@ controller.hears(
     }
 );
 
-
+const lastMessageTs = {};
+const lastMessageText = {};
 controller.hears('', [ 'ambient'] , function (bot, message) {
-    // Add 50 emojis, 5 emojis to choose
-    // cool
-    // good job
-    // great
+
+    if(lastMessageText[message.user] === message.text && lastMessageTs[message.user] === message.ts ) {
+        console.log('Dublicate caught: ', message.text, message.user)
+        return
+    }
+    lastMessageText[message.user] = message.text
+    lastMessageTs[message.user] = message.ts
+
    var emojisPairs = [
         // POSITIVE FEELINGS
         ["cool", "sunglasses"],
@@ -250,6 +255,7 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
     }
    
 });
+
 
 controller.on('interactive_message_callback', function(bot, message) {
     const originalMessage = JSON.parse(message.actions[0].value)
