@@ -237,10 +237,11 @@ controller.hears('', [ 'ambient'] , function (bot, message) {
 
 
         // bot.reply(message, getContent(emojisToAdd, message))
-        debugger    
+          
         bot.api.callAPI('chat.postEphemeral', {
             channel: message.channel,
             user: message.user,
+            thread_ts: message.thread_ts ? message.thread_ts : undefined,
              // attachments: JSON.stringify([{"pretext": "pre-hello", "text": "text-world"}])
             attachments: JSON.stringify(getContent(emojisToAdd, message)),
         }, (e, desc) => {
